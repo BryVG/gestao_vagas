@@ -3,7 +3,6 @@ package br.bryan.gestao_vagas.modules.company.useCases;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import br.bryan.gestao_vagas.exceptions.UserFoundException;
 import br.bryan.gestao_vagas.modules.company.entities.CompanyEntity;
 import br.bryan.gestao_vagas.modules.company.repositories.CompanyRepository;
@@ -16,7 +15,6 @@ public class CreateCompanyUseCase {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
 
     public CompanyEntity execute(CompanyEntity companyEntity){
 

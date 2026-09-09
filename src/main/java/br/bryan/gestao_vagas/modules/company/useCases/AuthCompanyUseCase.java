@@ -1,9 +1,19 @@
 package br.bryan.gestao_vagas.modules.company.useCases;
+import java.time.Duration;
+import java.time.Instant;
+
+import javax.naming.AuthenticationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+
 import br.bryan.gestao_vagas.modules.company.dto.AuthCompanyDTO;
 import br.bryan.gestao_vagas.modules.company.repositories.CompanyRepository;
 
@@ -19,7 +29,7 @@ public class AuthCompanyUseCase {
     @Autowired
     private PasswordEncoder passwordEncoder;
     
-    public String execute(AuthCompanyDTO authCompanyDTO) {
+    public String execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
         // Implement authentication logic here
         var company = this.companyRepository.findByUsername(authCompanyDTO.getUsername()).orElseThrow(
     () -> new UsernameNotFoundException("Company not found")
@@ -31,8 +41,10 @@ public class AuthCompanyUseCase {
         throw new BadCredentialsException("Invalid password");
     }
 
-    Algorithm algorithm = Algorithm.HMAC256();
-    var token = JWT.create().withIssuer("gestao-vagas").withSubject(company.getId().toString()).sign(algorithm);
+    Algorithm algorithm = Algorithm.HMAC256(this.secretKey);
+    var token = JWT.create().withIssuer("gestao-vagas")
+    .withExpiresAt(Instant.now().plus(Duration.ofHours(2))) 
+    .withSubject(company.getId().toString()).sign(algorithm);
     return token;
 }
 }
