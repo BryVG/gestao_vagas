@@ -29,7 +29,7 @@ public class AuthCompanyUseCase {
     @Autowired
     private PasswordEncoder passwordEncoder;
     
-    public String execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
+    public AuthCompanyResponseDTO execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
         // Implement authentication logic here
         var company = this.companyRepository.findByUsername(authCompanyDTO.getUsername()).orElseThrow(
     () -> new UsernameNotFoundException("Company not found")
@@ -42,9 +42,21 @@ public class AuthCompanyUseCase {
     }
 
     Algorithm algorithm = Algorithm.HMAC256(this.secretKey);
+
+    var expiresIn = Instant.now().plus(Duration.ofHours(2));
+
     var token = JWT.create().withIssuer("gestao-vagas")
-    .withExpiresAt(Instant.now().plus(Duration.ofHours(2))) 
-    .withSubject(company.getId().toString()).sign(algorithm);
-    return token;
+    .withExpiresAt(expiresIn) 
+    .withSubject(company.getId().toString())
+    .withClaim("roles", Arrays.asList("COMPANY"))
+    .sign(algorithm);
+    
+    var authCompanyResponseDTO = AuthCompanyResponseDTO.builder()
+    .access_token(token)
+    .expires_in(expiresIn.toEpochMilli())
+    .build();
+    
+    
+    return authCompanyResponseDTO;
 }
 }
