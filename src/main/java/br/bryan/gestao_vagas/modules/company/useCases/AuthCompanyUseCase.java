@@ -1,6 +1,7 @@
 package br.bryan.gestao_vagas.modules.company.useCases;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 
 import javax.naming.AuthenticationException;
 
@@ -16,6 +17,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 
 import br.bryan.gestao_vagas.modules.company.dto.AuthCompanyDTO;
 import br.bryan.gestao_vagas.modules.company.repositories.CompanyRepository;
+import br.bryan.gestao_vagas.modules.company.dto.AuthCompanyResponseDTO;
 
 @Service
 public class AuthCompanyUseCase {
@@ -28,6 +30,7 @@ public class AuthCompanyUseCase {
     
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     
     public AuthCompanyResponseDTO execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
         // Implement authentication logic here
@@ -38,7 +41,7 @@ public class AuthCompanyUseCase {
     var passwordMatches = this.passwordEncoder.matches(authCompanyDTO.getPassword(), company.getPassword());
 
     if(!passwordMatches) {
-        throw new BadCredentialsException("Invalid password");
+        throw new AuthenticationException("Invalid password");
     }
 
     Algorithm algorithm = Algorithm.HMAC256(this.secretKey);
