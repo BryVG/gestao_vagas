@@ -5,7 +5,6 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import br.bryan.gestao_vagas.modules.candidate.CandidateEntity;
 import br.bryan.gestao_vagas.modules.candidate.CandidateRepository;
 import br.bryan.gestao_vagas.modules.candidate.dto.ProfileCandidateResponseDTO;
 @Service 

@@ -1,6 +1,7 @@
 package br.bryan.gestao_vagas.modules.company.useCases;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 
 import javax.naming.AuthenticationException;
 
@@ -16,6 +17,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 
 import br.bryan.gestao_vagas.modules.company.dto.AuthCompanyDTO;
 import br.bryan.gestao_vagas.modules.company.repositories.CompanyRepository;
+import br.bryan.gestao_vagas.modules.company.dto.AuthCompanyResponseDTO;
 
 @Service
 public class AuthCompanyUseCase {
