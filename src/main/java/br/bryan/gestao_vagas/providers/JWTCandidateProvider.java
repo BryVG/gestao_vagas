@@ -10,7 +10,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 public class JWTCandidateProvider {
 
     @Value("${security.token.secret.candidate}")
-    
     private String secret;
 
     public DecodedJWT validateToken (String token)  {
@@ -18,10 +17,16 @@ public class JWTCandidateProvider {
         token = token.replace("Bearer ", "");
 
         Algorithm algorithm = Algorithm.HMAC256(secret);
-       
-        var tokenDecoded = JWT.require(algorithm).build().verify(token);
-        
-        return tokenDecoded;
+       try {
+            var tokenDecoded = JWT.require(algorithm)
+            .build()
+            .verify(token);
+            
+            return tokenDecoded;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
 
     }
     
