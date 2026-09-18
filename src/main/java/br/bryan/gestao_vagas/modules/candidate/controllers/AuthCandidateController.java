@@ -12,13 +12,13 @@ import br.bryan.gestao_vagas.modules.candidate.UseCases.AuthCandidateUseCase;
 import br.bryan.gestao_vagas.modules.candidate.dto.AuthCandidateDTO;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/candidate")
 public class AuthCandidateController {
     
     @Autowired
     private AuthCandidateUseCase authCandidateUseCase;
 
-    @PostMapping ("/candidate")
+    @PostMapping ("/auth")
     public  ResponseEntity<Object> auth(@RequestBody AuthCandidateDTO authCandidateDTO) {
         try{  var result = this.authCandidateUseCase.execute(authCandidateDTO);
             return ResponseEntity.ok().body(result);

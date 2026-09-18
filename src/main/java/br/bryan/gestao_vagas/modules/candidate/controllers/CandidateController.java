@@ -17,7 +17,7 @@ import br.bryan.gestao_vagas.modules.candidate.UseCases.CreateCandidateUseCase;
 import br.bryan.gestao_vagas.modules.candidate.UseCases.ProfileCandidateUseCase;
 
 @RestController
-@RequestMapping("/candidates")
+@RequestMapping("/candidate")
 public class CandidateController {
 
     @Autowired
@@ -26,17 +26,14 @@ public class CandidateController {
     @Autowired
     private ProfileCandidateUseCase profileCandidateUseCase;
 
-    @PostMapping("/")
-    public ResponseEntity<Object> create(@Valid @RequestBody CandidateEntity candidateEntity) {
-        // Lógica para criar um candidato
-        try {
-            var result = this.createCandidateUseCase.execute(candidateEntity);
-            return ResponseEntity.ok().body(result);
-        } catch(Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
+@PostMapping("/")
+public ResponseEntity<Object> create(
+        @Valid @RequestBody CandidateEntity candidateEntity) {
 
+    var result = this.createCandidateUseCase.execute(candidateEntity);
+
+    return ResponseEntity.ok().body(result);
+}
     @GetMapping ("/")
     @PreAuthorize("hasRole('CANDIDATE')")
     public ResponseEntity<Object> get(HttpServletRequest request) {
