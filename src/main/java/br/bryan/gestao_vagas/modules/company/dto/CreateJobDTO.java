@@ -2,9 +2,11 @@ package br.bryan.gestao_vagas.modules.company.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
+import lombok.Builder;
 import lombok.Data;
 
 @Data 
+@Builder 
 public class CreateJobDTO {
 
     @Schema(example = "Vaga para pessoa desenvolvedora Junior", requiredMode = RequiredMode.REQUIRED)
