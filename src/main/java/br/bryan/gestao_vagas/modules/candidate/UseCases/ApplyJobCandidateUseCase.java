@@ -10,6 +10,7 @@ import br.bryan.gestao_vagas.modules.candidate.repository.ApplyJobRepository;
 import br.bryan.gestao_vagas.modules.company.repositories.JobRepository;
 import br.bryan.gestao_vagas.exceptions.UserNotFoundException;
 import br.bryan.gestao_vagas.exceptions.JobNotFoundException;
+import br.bryan.gestao_vagas.modules.candidate.entity.ApplyEntity;
 
 @Service 
 public class ApplyJobCandidateUseCase {
@@ -22,8 +23,8 @@ public class ApplyJobCandidateUseCase {
 
     @Autowired
     private ApplyJobRepository applyJobRepository;
-    
-    public void execute(UUID idCandidate, UUID idJob) {
+
+    public ApplyEntity execute(UUID idCandidate, UUID idJob) {
         
         this.candidateRepository.findById(idCandidate)
         .orElseThrow(() -> {throw new UserNotFoundException();});
@@ -31,5 +32,11 @@ public class ApplyJobCandidateUseCase {
         this.jobRepository.findById(idJob)
         .orElseThrow(() -> {throw new JobNotFoundException();});
         
+        var applyJob = ApplyEntity.builder()
+        .candidateId(idCandidate)
+        .jobId(idJob).build();
+
+        applyJob = applyJobRepository.save(applyJob);
+        return applyJob;
     }
 }

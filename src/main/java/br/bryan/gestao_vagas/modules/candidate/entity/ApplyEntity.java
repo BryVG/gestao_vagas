@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 
 import lombok.Builder;
 import lombok.Data;
+
 @Entity(name = "apply_jobs")
 @Data
 @Builder 
